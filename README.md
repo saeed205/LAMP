@@ -97,7 +97,6 @@ Set permissions for the wp-config.php file:
 
 ```bash
 sudo chmod 660 /var/www/html/wp-config-sample.php
-sudo chmod 660 /var/www/html/wp-config.php
 ```
 
 ## Step 9: Configure Apache
