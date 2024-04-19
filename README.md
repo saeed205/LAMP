@@ -52,24 +52,32 @@ Follow the prompts to set up a secure password and other security configurations
 
 ## Step 5: Create WordPress Database and User
 
-Now, let's create a MySQL database and user for WordPress. Replace `wordpress_db`, `wordpress_user`, and `password` with your desired values:
+First, let's log in to MariaDB as the root user:
 
 ```bash
-read -s -p "Enter MariaDB root password: " db_root_password
-echo
-read -p "Enter WordPress database name: " wordpress_db
-read -p "Enter WordPress database user: " wordpress_user
-read -s -p "Enter WordPress database password: " wordpress_password
-echo
-
-sudo mysql -u root -p$db_root_password <<MYSQL_SCRIPT
-CREATE DATABASE $wordpress_db;
-CREATE USER '$wordpress_user'@'localhost' IDENTIFIED BY '$wordpress_password';
-GRANT ALL PRIVILEGES ON $wordpress_db.* to '$wordpress_user'@'localhost';
-FLUSH PRIVILEGES;
-exit
-MYSQL_SCRIPT
+sudo mysql -u root -p
 ```
+
+Enter your MariaDB root password when prompted.
+
+Once logged in to the MariaDB shell, execute the following SQL commands to create a new database, user, and grant privileges:
+
+```sql
+CREATE DATABASE wordpress_db;
+CREATE USER 'wordpress_user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON wordpress_db.* TO 'wordpress_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Replace `'wordpress_db'`, `'wordpress_user'`, and `'password'` with your desired values for the WordPress database name, database user, and password, respectively.
+
+Exit the MariaDB shell:
+
+```sql
+exit;
+```
+
+Now, the WordPress database and user have been created and granted necessary privileges.
 
 ## Step 6: Download and Extract WordPress
 
@@ -134,16 +142,3 @@ Remove temporary files:
 sudo rm /tmp/wordpress.tar.gz
 ```
 
-## Step 13: Access Your WordPress Site
-
-Finally, you can access your WordPress site by navigating to the IP address of your server in your web browser:
-
-```bash
-server_ip=$(hostname -I | awk '{print $1}')
-echo "WordPress setup complete. You can now access your site at http://$server_ip/"
-```
-
-Congratulations! You've successfully set up WordPress on your Ubuntu Server. You can now start creating your website or blog.
-```
-
-This markdown guide walks users through each step of setting up WordPress on Ubuntu Server, explaining each command and configuration along the way. Users can follow these instructions to complete the installation process manually.
